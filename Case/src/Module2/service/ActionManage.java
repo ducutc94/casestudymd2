@@ -2,7 +2,6 @@ package Module2.service;
 
 import Module2.model.Actions;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,12 +9,19 @@ import java.util.Scanner;
 public class ActionManage implements Manage<Actions>, IOFile<Actions> {
     private final Scanner scanner;
     private final ArrayList<Actions> arrayList;
+    private static ActionManage instance=null;
     private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Action";
 
-    public ActionManage(Scanner scanner) {
-        this.scanner = scanner;
+    private ActionManage() {
+        this.scanner = new Scanner(System.in);
         arrayList = read(PATH);
         checkDefaultIndex();
+    }
+    public  synchronized static ActionManage getInstance(){
+        if(instance==null){
+            instance=new ActionManage();
+        }
+        return instance;
     }
 
     private void checkDefaultIndex() {
@@ -36,30 +42,28 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
 
     @Override
     public Actions edit() {
-        System.out.println("Enter id you want to edit: ");
-        if (getById() != null) {
+        displayAll();
+        System.out.println("Enter id want to edit : ");
+        int id=-1;
+        do{
+            try {
+                id = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please re-enter the number!");
+            }
+        }while (true);
+        if (getById(id) != null) {
             System.out.println("Enter new name: ");
             String name = scanner.nextLine();
-            getById().setName(name);
+            getById(id).setName(name);
             write(arrayList, PATH);
-            return getById();
+            return getById(id);
         }
         return null;
     }
 
-    public Actions getById() {
-        displayAll();
-        int id;
-        do {
-            try {
-                System.out.println("Input id you want to find: ");
-                id = Integer.parseInt(scanner.nextLine());
-                break;
-            } catch (NumberFormatException e) {
-                System.err.println("Have error, please try again!");
-            }
-        } while (true);
-
+    public Actions getById(int id) {
         for (Actions actions : arrayList) {
             if (actions.getId() == id) {
                 return actions;
@@ -67,28 +71,33 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
         }
         return null;
     }
-
     @Override
     public Actions delete() {
+        displayAll();
         System.out.println("Enter id you want to delete: ");
-
-        if (getById() != null) {
-            arrayList.remove(getById());
+        int id=-1;
+        do{
+            try {
+                id = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please re-enter the number!");
+            }
+        }while (true);
+        if (getById(id) != null) {
+            arrayList.remove(getById(id));
             write(arrayList, PATH);
-            return getById();
+            return getById(id);
         }
         return null;
     }
-
     @Override
     public void displayAll() {
         System.out.printf("%-15s%s", "ID", "NAME\n");
         for (Actions e : arrayList) {
             e.display();
         }
-
     }
-
     @Override
     public void write(ArrayList<Actions> e, String path) {
         File file = new File(path);
@@ -100,7 +109,6 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
             System.err.println(ioException.getMessage());
         }
     }
-
     @Override
     public ArrayList<Actions> read(String path) {
         File file = new File(path);

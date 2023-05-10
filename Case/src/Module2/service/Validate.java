@@ -35,7 +35,4 @@ public class Validate {
         System.out.println("validatePhone: " + matcher.matches());
         return matcher.matches();
     }
-
-
-
 }

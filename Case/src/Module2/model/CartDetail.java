@@ -7,7 +7,7 @@ public class CartDetail implements Serializable {
     private static final long serialVersionUID = 3L;
 
     public static int INDEX=0;
-    private int id;
+    private final int id;
     private final Cart cart;
     private Anime anime;
     private int quantity;
@@ -27,9 +27,6 @@ public class CartDetail implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Anime getAnime() {
         return anime;

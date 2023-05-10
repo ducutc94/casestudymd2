@@ -2,7 +2,6 @@ package Module2.service;
 
 import Module2.model.Actions;
 import Module2.model.Anime;
-import Module2.model.User;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,13 +13,20 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
 
     private static ArrayList<Anime> animeArrayList;
     private final ActionManage actionManage;
+    private static AnimeManage instance=null;
     private final String PATH= "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Anime";
 
-    public AnimeManage( Scanner scanner,ActionManage actionManage) {
-        this.scanner=scanner;
+    private AnimeManage(ActionManage actionManage) {
+        this.scanner=new Scanner(System.in);
         this.actionManage=actionManage;
         animeArrayList=read(PATH);
         checkDefaultIndex();
+    }
+    public  synchronized static AnimeManage getInstance(){
+        if(instance==null){
+            instance=new AnimeManage(ActionManage.getInstance());
+        }
+        return instance;
     }
     private void checkDefaultIndex() {
         if (animeArrayList.isEmpty()) {
@@ -29,10 +35,6 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
             Anime.INDEX = animeArrayList.get(animeArrayList.size() - 1).getId();
         }
     }
-    private ActionManage getActionManage(){
-        return actionManage;
-    }
-
     @Override
     public void write(ArrayList<Anime> e, String path) {
         File file=new File(path);
@@ -40,7 +42,8 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Anime u : animeArrayList) {
-                bufferedWriter.write( u.getId()+","+u.getUsername() + "," + u.getAction().getName() + "," +
+                bufferedWriter.write( u.getId()+","+u.getUsername() + ","
+                        +u.getAction().getId()+","+ u.getAction().getName() + "," +
                         u.getPrice()+ "\n");
             }
             bufferedWriter.close();
@@ -61,7 +64,7 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
             while ((data=bufferedReader.readLine())!=null){
                 String[] strings=data.split(",");
                 animeArrayList.add(new Anime(Integer.parseInt(strings[0]), strings[1],
-                        new Actions(strings[2]), Double.parseDouble(strings[3])));
+                        new Actions(Integer.parseInt(strings[2]),strings[3]), Double.parseDouble(strings[4])));
             }
             bufferedReader.close();
             fileReader.close();
@@ -93,17 +96,27 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
     }
 
     private Actions getAction() {
+        actionManage.displayAll();
         System.out.println("Input action: ");
+        int id=-1;
+        do{
+            try {
+                id = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Please re-enter the number!");
+            }
+        }while (true);
         Actions actions;
         do {
-            actions = actionManage.getById();
+            actions = actionManage.getById(id);
         } while (actions == null);
         return actions;
     }
 
-
     @Override
     public Anime edit() {
+        displayAll();
         System.out.println("Enter id : ");
         int id=-1;
         do{
@@ -120,7 +133,6 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
             String name=scanner.nextLine();
             animeArrayList.get(idEdit).setUsername(name);
             System.out.println("Enter new action: ");
-            actionManage.displayAll();
             Actions actions=getAction();
             animeArrayList.get(idEdit).setAction(actions);
             System.out.println("Enter price: ");
@@ -148,9 +160,9 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
         return -1;
     }
     public Anime getByIdToAnime(int id){
-        for (int i = 0; i < animeArrayList.size(); i++) {
-            if (animeArrayList.get(i).getId() == id) {
-                return animeArrayList.get(i);
+        for (Anime anime : animeArrayList) {
+            if (anime.getId() == id) {
+                return anime;
             }
         }
         return null;
@@ -158,6 +170,7 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
 
     @Override
     public Anime delete() {
+        displayAll();
         System.out.println("Enter id your want delete: ");
 
         int id=-1;
@@ -192,13 +205,4 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
                 "ID", "NAME", "ACTION", "PRICE/One Day\n");
         a.display();
     }
-    public void disPlayAll(){
-        read(PATH);
-        System.out.printf("%-5s%-15s%-20s%s",
-                "ID", "NAME", "ACTION", "PRICE/One Day\n");
-        for (Anime a:animeArrayList) {
-            a.display();
-        }
-    }
-
 }

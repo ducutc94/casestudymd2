@@ -11,10 +11,10 @@ public class MainTest {
    public static User user;
 
     public static void main(String[] args) {
-        ActionManage actionManage = new ActionManage(scanner);
-        AnimeManage animeManage = new AnimeManage(scanner, actionManage);
-        UsernameManage usernameManage = new UsernameManage(animeManage, scanner);
-        CartDetailManage cartDetailManage=new CartDetailManage(animeManage);
+        ActionManage actionManage = ActionManage.getInstance();
+        AnimeManage animeManage = AnimeManage.getInstance();
+        UsernameManage usernameManage = UsernameManage.getInstance();
+        CartDetailManage cartDetailManage=CartDetailManage.getInstance();
         menuLogin(usernameManage, scanner, animeManage,actionManage,cartDetailManage);
     }
 
@@ -30,7 +30,6 @@ public class MainTest {
             System.out.println("4.DisplayAll");
             System.out.println("5.Action");
             System.out.println("6.Up");
-            System.out.println("7.Creat user");
             System.out.println("8.Logout");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -58,12 +57,6 @@ public class MainTest {
                 case 6:
                     usernameManage.up();
                     break;
-                case 7:
-                    break;
-                case 0:
-                    System.exit(0);
-                default:
-                    System.out.println("Mother");
             }
         } while (choice!=8);
 
@@ -87,11 +80,16 @@ int choice=-1;
             switch (choice) {
                 case 1:
                     user = usernameManage.login();
-                    if (user.getRole().equals("admin")) {
-                        menuAdmin(animeManage, scanner, usernameManage,actionManage);
-                    } else if (user.getRole().equals("user")) {
-                        menuUser(animeManage, scanner, usernameManage,cartDetailManage);
+                    if(user!=null){
+                        if (user.getRole().equals("admin")) {
+                            menuAdmin(animeManage, scanner, usernameManage,actionManage);
+                        } else if (user.getRole().equals("user")) {
+                            menuUser(animeManage, scanner, usernameManage,cartDetailManage);
+                        }
+                    }else {
+                        System.out.println("Mother");
                     }
+
                     break;
                 case 2:
                     usernameManage.register();
@@ -148,6 +146,7 @@ int choice=-1;
             System.out.println("2.Edit");
             System.out.println("3.Delete");
             System.out.println("4.Display");
+            System.out.println("0.Exit");
             System.out.println("Enter your choice");
             do{
                 try {
@@ -168,9 +167,6 @@ int choice=-1;
                     break;
             }
         }while (choice!=0);
-
-
-
 
     }
     private static void  menuCart(Scanner scanner, CartDetailManage cartDetailManage){

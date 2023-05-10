@@ -2,15 +2,12 @@ package Module2.model;
 
 public class User {
     public static  int INDEX;
-    private int id;
+    private final int id;
     private String username;
     private String password;
     private String gmail;
     private String phone;
     private String role ;
-
-    public User() {
-    }
 
     public User(String username, String password, String gmail, String phone) {
         this.id = ++INDEX;
@@ -34,9 +31,6 @@ public class User {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

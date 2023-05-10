@@ -15,21 +15,11 @@ public class Cart  implements Serializable {
     public Cart() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public boolean isStatus() {
         return status;
@@ -46,10 +36,4 @@ public class Cart  implements Serializable {
                 "," + name+
                 ","+status;
     }
-    public void display(){
-        System.out.printf("%-5s%-10s%s"
-                ,this.id, this.name,this.status+"\n");
-
-    }
-
 }

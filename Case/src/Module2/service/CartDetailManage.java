@@ -16,13 +16,20 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
     private final ArrayList<CartDetail> cartDetails;
     private final List<Cart> carts = new ArrayList<>();
     private final AnimeManage animeManage;
+    private static CartDetailManage instance=null;
 
     private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Cart.txt";
 
-    public CartDetailManage(AnimeManage animeManage) {
+    private CartDetailManage(AnimeManage animeManage) {
         this.animeManage = animeManage;
         cartDetails = read(PATH);
         checkDefaultIndex();
+    }
+    public  synchronized static CartDetailManage getInstance(){
+        if(instance==null){
+            instance=new CartDetailManage(AnimeManage.getInstance());
+        }
+        return instance;
     }
 
     private void checkDefaultIndex() {
@@ -89,10 +96,6 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
         } else if (pay.equalsIgnoreCase("N")) {
             System.out.println("Not okay.");
         }
-    }
-
-    public void displayOne(CartDetail cartDetail) {
-        cartDetail.display();
     }
 
     public void displayCart() {
@@ -169,7 +172,7 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
         try (ObjectInputStream objectInputStream
                      = new ObjectInputStream(new FileInputStream(file))) {
             cartDetailArrayList = (ArrayList<CartDetail>) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException ioException) {
+        } catch (Exception ioException) {
             System.out.println("bye");
         }
         return cartDetailArrayList;

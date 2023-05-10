@@ -10,14 +10,19 @@ public class UsernameManage implements Manage<User>, IOFile<User> {
     private static final Validate validate = new Validate();
     private final Scanner scanner;
     private static ArrayList<User> users;
-    private final AnimeManage animeManage;
+    private static UsernameManage instance=null;
     private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\User";
 
-    public UsernameManage(AnimeManage animeManage, Scanner scanner) {
-        this.scanner = scanner;
-        this.animeManage = animeManage;
+    private UsernameManage() {
+        this.scanner = new Scanner(System.in);
         users = read(PATH);
         checkDefaultIndex();
+    }
+    public  synchronized static UsernameManage getInstance(){
+        if(instance==null){
+            instance=new UsernameManage();
+        }
+        return instance;
     }
 
     private void checkDefaultIndex() {
@@ -30,41 +35,11 @@ public class UsernameManage implements Manage<User>, IOFile<User> {
 
     @Override
     public void creat() {
-//        System.out.println("Enter username: ");
-//        String username = scanner.nextLine();
-//        System.out.println("Enter password: ");
-//        String password = scanner.nextLine();
-//        System.out.println("Enter gmail: ");
-//        String gmail = scanner.nextLine();
-//        System.out.println("Enter phone: ");
-//        String phone = scanner.nextLine();
-//        users.add(new User(username, password, gmail, phone));
-//        write(users, PATH);
+
     }
 
     @Override
     public User edit() {
-//        System.out.println("Enter id uoy want to edit: ");
-//        int id = Integer.parseInt(scanner.nextLine());
-//        int idEdit = getById(id);
-//        if (idEdit != -1) {
-//            System.out.println("Enter new name: ");
-//            String name = scanner.nextLine();
-//            users.get(idEdit).setUsername(name);
-//            System.out.println("Enter new password: ");
-//            String password = scanner.nextLine();
-//            users.get(idEdit).setPassword(password);
-//            System.out.println("Enter new gmail: ");
-//            String gmail = scanner.nextLine();
-//            users.get(idEdit).setGmail(gmail);
-//            System.out.println("Enter new phone: ");
-//            String phone = scanner.nextLine();
-//            users.get(idEdit).setPhone(phone);
-//            System.out.println("Success");
-//            write(users, PATH);
-//            return users.get(idEdit);
-//        }
-//        System.out.println("Not Monkey");
         return null;
     }
 
@@ -81,16 +56,6 @@ public class UsernameManage implements Manage<User>, IOFile<User> {
 
     @Override
     public User delete() {
-//        System.out.println("Enter id uoy want to edit: ");
-//        int id = Integer.parseInt(scanner.nextLine());
-//        int idDelete = getById(id);
-//        User user;
-//        if (idDelete != -1) {
-//            user = users.remove(idDelete);
-//            System.out.println("Delete Success");
-//            write(users, PATH);
-//            return user;
-//        }
         return null;
     }
 
