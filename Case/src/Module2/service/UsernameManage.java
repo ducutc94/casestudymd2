@@ -44,8 +44,18 @@ public class UsernameManage implements Manage<User>, IOFile<User> {
     }
 
     public void up() {
+        displayAll();
         System.out.println("Enter id want to up");
-        int id = Integer.parseInt(scanner.nextLine());
+        int id=-1;
+        do {
+            try {
+                System.out.println("Input id you want: ");
+                id = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("Have error, please try again!");
+            }
+        } while (true);
         int idUp = getById(id);
         if (idUp != -1) {
             users.get(idUp).setRole("admin");

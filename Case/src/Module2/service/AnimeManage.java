@@ -87,7 +87,7 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
                 price = Double.parseDouble(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please re-enter the number!");
+                System.out.println("Please  number my boy.!");
             }
         }while (true);
         animeArrayList.add(new Anime(username,actions,price));
@@ -104,7 +104,7 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
                 id = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please re-enter the number!");
+                System.out.println("Please  number my boy!");
             }
         }while (true);
         Actions actions;
@@ -124,14 +124,16 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
                 id = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please re-enter the number!");
+                System.out.println("Please number my boy!");
             }
         }while (true);
         int idEdit=getById(id);
         if(idEdit!=-1){
             System.out.println("Enter new name: ");
             String name=scanner.nextLine();
-            animeArrayList.get(idEdit).setUsername(name);
+            if(!name.equals("")){
+                animeArrayList.get(idEdit).setUsername(name);
+            }
             System.out.println("Enter new action: ");
             Actions actions=getAction();
             animeArrayList.get(idEdit).setAction(actions);
@@ -142,10 +144,11 @@ public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
                     d = Double.parseDouble(scanner.nextLine());
                     break;
                 } catch (NumberFormatException e) {
-                    System.out.println("Please re-enter the number!");
+                    System.out.println("Please number my boy!");
                 }
             }while (true);
             animeArrayList.get(idEdit).setPrice(d);
+            System.out.println("Edit okay.");
             write(animeArrayList,PATH);
             return animeArrayList.get(idEdit);
         }

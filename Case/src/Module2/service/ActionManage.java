@@ -81,7 +81,7 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
                 id = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please re-enter the number!");
+                System.out.println("Please  number my boy!");
             }
         }while (true);
         if (getById(id) != null) {
@@ -106,7 +106,7 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
                 bufferedWriter.write(actions.getId() + "," + actions.getName() + "\n");
             }
         } catch (IOException ioException) {
-            System.err.println(ioException.getMessage());
+            System.out.println(ioException.getMessage());
         }
     }
     @Override
@@ -120,7 +120,7 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
                 actionsArrayList.add(new Actions(Integer.parseInt(strings[0]), strings[1]));
             }
         } catch (IOException ioException) {
-            System.err.println(ioException.getMessage());
+            System.out.println(ioException.getMessage());
         }
         return actionsArrayList;
     }
