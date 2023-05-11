@@ -1,5 +1,7 @@
 package Module2.service;
 
+import Module2.InterFace.IOFile;
+import Module2.InterFace.Manage;
 import Module2.model.Actions;
 import Module2.model.Anime;
 
@@ -7,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AnimeManage implements IOFile<Anime>,Manage<Anime>{
+public class AnimeManage implements IOFile<Anime>, Manage<Anime> {
 
     private final Scanner scanner;
 

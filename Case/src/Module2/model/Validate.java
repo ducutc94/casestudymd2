@@ -1,4 +1,4 @@
-package Module2.service;
+package Module2.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

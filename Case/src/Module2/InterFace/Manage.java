@@ -1,4 +1,4 @@
-package Module2.service;
+package Module2.InterFace;
 public interface Manage<E> {
     void creat();
     E edit();
