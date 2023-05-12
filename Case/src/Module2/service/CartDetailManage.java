@@ -20,7 +20,7 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
     private final AnimeManage animeManage;
     private static CartDetailManage instance = null;
 
-    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Cart.txt";
+    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\Text\\Cart.txt";
 
     private CartDetailManage(AnimeManage animeManage) {
         this.animeManage = animeManage;
@@ -43,11 +43,6 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
         }
     }
 
-    public void addCart(Cart cart, Anime anime, int quantity) {
-        CartDetail cartDetail = new CartDetail(cart, anime, quantity);
-        cartDetails.add(cartDetail);
-        write(cartDetails, PATH);
-    }
 
     public void sumCart() {
         double sum = 0;
@@ -144,7 +139,22 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
         Anime a = animeManage.getByIdToAnime(choice);
         System.out.println("Enter the quantity you want to buy:");
         int quantity = Integer.parseInt(scanner.nextLine());
-        addCart(cart, a, quantity);
+        boolean flag = true;
+        int index = -1;
+        for (int i = 0; i < cartDetails.size(); i++) {
+            if (user.getUsername().equals(cartDetails.get(i).getCart().getName()) && cartDetails.get(i).getAnime().getUsername().equals(a.getUsername())) {
+                index = i;
+                flag = false;
+            }
+        }
+        if (!flag) {
+            int quantity1 = cartDetails.get(index).getQuantity();
+            cartDetails.get(index).setQuantity(quantity1 + quantity);
+        } else {
+            CartDetail cartDetail = new CartDetail(cart, a, quantity);
+            cartDetails.add(cartDetail);
+        }
+        write(cartDetails, PATH);
     }
 
     @Override
@@ -161,7 +171,7 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
             if (quantity != 0) {
                 cartDetail.setQuantity(quantity);
             }
-            return  cartDetail;
+            return cartDetail;
         }
         write(cartDetails, PATH);
         return null;
@@ -171,7 +181,7 @@ public class CartDetailManage implements IOFile<CartDetail>, Manage<CartDetail> 
     public CartDetail delete() {
         CartDetail cartDetail = getById();
         if (cartDetail != null) {
-              cartDetails.remove(cartDetail);
+            cartDetails.remove(cartDetail);
             System.out.println("Removed from cart !");
             return cartDetail;
         }

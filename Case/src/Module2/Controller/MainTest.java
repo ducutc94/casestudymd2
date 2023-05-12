@@ -186,8 +186,7 @@ public class MainTest {
             System.out.println("1. Display cart");
             System.out.println("2. Add to cart");
             System.out.println("3. Delete from cart");
-            System.out.println("4. Update to cart");
-            System.out.println("5. Total Paid");
+            System.out.println("4. Total Paid");
             System.out.println("0. Exit!");
             System.out.println("-->Enter your choice here!<--");
             do {
@@ -210,12 +209,8 @@ public class MainTest {
                     CartDetail cartDetail =cartDetailManage.delete();
                     cartDetail.display();
                     break;
-                case 4:
-                    CartDetail cartDetail1 =cartDetailManage.edit();
-                    cartDetail1.display();
-                    break;
-                case 5:
-                    cartDetailManage.pay();
+                case 4:cartDetailManage.pay();
+
                     break;
             }
         } while (choice != 0);

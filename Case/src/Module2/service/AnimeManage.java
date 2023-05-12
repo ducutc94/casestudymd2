@@ -16,7 +16,7 @@ public class AnimeManage implements IOFile<Anime>, Manage<Anime> {
     private static ArrayList<Anime> animeArrayList;
     private final ActionManage actionManage;
     private static AnimeManage instance=null;
-    private final String PATH= "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Anime";
+    private final String PATH= "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\Text\\Anime";
 
     private AnimeManage(ActionManage actionManage) {
         this.scanner=new Scanner(System.in);

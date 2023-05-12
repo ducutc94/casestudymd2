@@ -14,7 +14,7 @@ public class UsernameManage implements Manage<User>, IOFile<User> {
     private final Scanner scanner;
     private static ArrayList<User> users;
     private static UsernameManage instance=null;
-    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\User";
+    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\Text\\User";
 
     private UsernameManage() {
         this.scanner = new Scanner(System.in);

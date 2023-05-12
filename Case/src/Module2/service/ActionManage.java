@@ -12,7 +12,7 @@ public class ActionManage implements Manage<Actions>, IOFile<Actions> {
     private final Scanner scanner;
     private final ArrayList<Actions> arrayList;
     private static ActionManage instance=null;
-    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\IOFile\\Action";
+    private final String PATH = "C:\\Users\\Tien\\Desktop\\Module2\\Case\\src\\Module2\\Text\\Action";
 
     private ActionManage() {
         this.scanner = new Scanner(System.in);
